@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tender-service
+  namespace: 
+  labels:
+    app: tender-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tender-service
+  template:
+    metadata:
+      labels:
+        app: tender-service
+    spec:
+      containers:
+        - name: tender-service
+          image: medoedoded/ts:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_ADDRESS
+              value: "0.0.0.0"
+            - name: SERVER_PORT
+              value: "8080"
+            - name: POSTGRES_CONN
+              value: 
+            - name: POSTGRES_JDBC_URL
+              value: 
+            - name: POSTGRES_USERNAME
+              value:
+            - name: POSTGRES_PASSWORD
+              value: 
+            - name: POSTGRES_HOST
+              value: 
+            - name: POSTGRES_PORT
+              value: 
+            - name: POSTGRES_DATABASE
+              value: 
