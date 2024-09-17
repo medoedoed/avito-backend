@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    environment:
+      DATABASE_URL: jdbc:postgresql://username:password@postgres:5432/db
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    command: ["sh", "-c", "while ! nc -z postgres 5432; do sleep 1; done; java -jar /app/spring-boot-application.jar"]
+
+volumes:
+  db_data:
